@@ -62,8 +62,8 @@
     $("conn-text").textContent = live ? "Local checker ready" : "Offline preview";
     const b = $("banner");
     b.hidden = live;
-    if (!live) b.textContent = fileMode
-      ? "This is the view-only preview: you can browse the bundled results. To check new instructions, close it and double-click START_MAC.command or START_WINDOWS.bat in the unzipped folder."
+    if (!live) b.textContent = (fileMode || state.staticHost)
+      ? "View-only preview: you can browse all the bundled results. To check new instructions, download the app from GitHub and double-click START_MAC.command or START_WINDOWS.bat."
       : "The local checker is unavailable. Start the app with its launcher, then reload this page.";
     updateControls();
   }
@@ -302,6 +302,6 @@
     }).then((data) => {
       state.cases = data.cases || state.cases; state.reference = data.reference || state.reference;
       renderReference(); updateTally(); if (state.view === "demo") select(0);
-    }).catch((e) => { setLive(false); message(e.message, true); });
+    }).catch(() => { state.staticHost = true; setLive(false); });
   }
 })();
