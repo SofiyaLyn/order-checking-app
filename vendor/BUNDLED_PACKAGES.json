@@ -1,0 +1,43 @@
+[
+  {
+    "package": "openpyxl",
+    "version": "3.1.5",
+    "license_metadata": "MIT",
+    "license_files": [
+      "openpyxl__openpyxl-3.1.5.dist-info__LICENCE.rst"
+    ],
+    "project_urls": [
+      "Documentation, https://openpyxl.readthedocs.io/en/stable/",
+      "Source, https://foss.heptapod.net/openpyxl/openpyxl",
+      "Tracker, https://foss.heptapod.net/openpyxl/openpyxl/-/issues"
+    ]
+  },
+  {
+    "package": "et_xmlfile",
+    "version": "2.0.0",
+    "license_metadata": "MIT",
+    "license_files": [
+      "et_xmlfile__et_xmlfile-2.0.0.dist-info__LICENCE.python",
+      "et_xmlfile__et_xmlfile-2.0.0.dist-info__LICENCE.rst"
+    ],
+    "project_urls": [
+      "Documentation, https://openpyxl.pages.heptapod.net/et_xmlfile/",
+      "Source, https://foss.heptapod.net/openpyxl/et_xmlfile",
+      "Tracker, https://foss.heptapod.net/openpyxl/et_xmfile/-/issues"
+    ]
+  },
+  {
+    "package": "tzdata",
+    "version": "2026.6",
+    "license_metadata": "Apache-2.0",
+    "license_files": [
+      "tzdata__tzdata-2026.6.dist-info__licenses__LICENSE",
+      "tzdata__tzdata-2026.6.dist-info__licenses__licenses__LICENSE_APACHE"
+    ],
+    "project_urls": [
+      "Bug Reports, https://github.com/python/tzdata/issues",
+      "Source, https://github.com/python/tzdata",
+      "Documentation, https://tzdata.python.org"
+    ]
+  }
+]

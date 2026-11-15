@@ -1,0 +1,1811 @@
+[
+  {
+    "file": "01_excel_order.eml",
+    "time": "09:12:00",
+    "received_at": "2026-11-13T09:12:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Rebalancing order, Excel attached",
+    "order_ref": "OC-6b0d10da2759060b",
+    "source_sha256": "6b0d10da2759060b2e8dabca854e1e5a87740596a2a3dce7d2fd74aed7692453",
+    "message_id": "<01_excel_order@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": 400,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      },
+      {
+        "account": "100234",
+        "side": "SELL",
+        "isin": "IE00ALLW0020",
+        "qty": 150,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [],
+    "suggestion": "",
+    "reply": "Draft only: we have received your instruction. Acceptance and execution require separate confirmation.",
+    "decision": "ready",
+    "reason": "Supported sample checks passed. This is a candidate for independent manual controls, not an approval or release.",
+    "owner": "Operations",
+    "next_action": "Independent manual review",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T09:12:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Quantity",
+        "detail": "400 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Aggregate cash",
+        "detail": "EUR 39360.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: ISIN and instrument master",
+        "detail": "IE00ALLW0020: All-World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Quantity",
+        "detail": "150 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Aggregate position",
+        "detail": "150 candidate units against sample holding 900"
+      }
+    ]
+  },
+  {
+    "file": "02_amount_order.eml",
+    "time": "09:47:00",
+    "received_at": "2026-11-13T09:47:00+01:00",
+    "from": "m.hartmann@hartmann-stiftung.de",
+    "subject": "Amount-based purchase",
+    "order_ref": "OC-121eb74dad33ac54",
+    "source_sha256": "121eb74dad33ac54e0d3989a9e7f725fd61ad5e715acc9ec0eebbce28700e79b",
+    "message_id": "<02_amount_order@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100871",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": null,
+        "amount": "25000",
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [],
+    "suggestion": "",
+    "reply": "Draft only: we have received your instruction. Acceptance and execution require separate confirmation.",
+    "decision": "ready",
+    "reason": "Supported sample checks passed. This is a candidate for independent manual controls, not an approval or release.",
+    "owner": "Operations",
+    "next_action": "Independent manual review",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T09:47:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Monetary amount",
+        "detail": "EUR 25000 preserved as an amount instruction, not converted into units"
+      },
+      {
+        "status": "PASS",
+        "label": "Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Aggregate cash",
+        "detail": "EUR 25000 candidate total against EUR 80000; unit-order valuation uses indicative sample prices"
+      }
+    ]
+  },
+  {
+    "file": "03_unclear_order.eml",
+    "time": "10:05:00",
+    "received_at": "2026-11-13T10:05:00+01:00",
+    "from": "j.brandt@brandt-vermoegen.at",
+    "subject": "Selling",
+    "order_ref": "OC-71ecdf91ebdd0f82",
+    "source_sha256": "71ecdf91ebdd0f825d413d8903a523ea12db7dfba49c77db22d502a9457a7a6f",
+    "message_id": "<03_unclear_order@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": null,
+        "side": "SELL",
+        "isin": null,
+        "qty": null,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": true,
+        "extraction": {
+          "account": "missing",
+          "side": "explicit",
+          "isin": "missing",
+          "size": "missing"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Instruction interpretation",
+      "Missing account",
+      "Missing instrument",
+      "Missing size"
+    ],
+    "suggestion": "Signer is associated with sample account 100455. Ask the client to confirm; it has not been substituted.",
+    "reply": "Draft only: please confirm the highlighted missing or ambiguous details.",
+    "decision": "review",
+    "reason": "A required interpretation or verification is unresolved. Operations owns clarification.",
+    "owner": "Operations",
+    "next_action": "Resolve highlighted issues",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Instruction is outside the supported single-order grammar; obtain explicit clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Relative size such as all/half requires an explicit confirmed quantity"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T10:05:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing account",
+        "detail": "Obtain the account explicitly from the client"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing instrument",
+        "detail": "Obtain one explicit instrument identifier"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing size",
+        "detail": "An explicit positive quantity or supported monetary amount is required"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "04_isin_typo.eml",
+    "time": "11:20:00",
+    "received_at": "2026-11-13T11:20:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Purchase instruction",
+    "order_ref": "OC-44c76baf81e8e34d",
+    "source_sha256": "44c76baf81e8e34ddadcadc157dd766353863368620e7ed85500a52d51641f00",
+    "message_id": "<04_isin_typo@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00WRLD0014",
+        "qty": 200,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "ISIN check digit"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T11:20:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "FAIL",
+        "label": "ISIN check digit",
+        "detail": "Invalid identifier 'IE00WRLD0014'; never auto-correct it"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "200 explicit units"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "05_fake_sender.eml",
+    "time": "11:58:00",
+    "received_at": "2026-11-13T11:58:00+01:00",
+    "from": "thomas.keller@mueller-fo.co",
+    "subject": "URGENT: act now",
+    "order_ref": "OC-995e4129e02157ac",
+    "source_sha256": "995e4129e02157ac2f9244e22105bbe1f1650a0a2951d61a0287f1981d2b6b3d",
+    "message_id": "<05_fake_sender@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "SELL",
+        "isin": null,
+        "qty": null,
+        "amount": null,
+        "inferred": false,
+        "all": true,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "missing",
+          "size": "missing"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Email authentication",
+      "Sender is an authorised signer",
+      "Suspicious instruction pattern",
+      "Instruction interpretation",
+      "Sender may act on this account",
+      "Missing instrument",
+      "Missing size"
+    ],
+    "suggestion": "",
+    "reply": "Contact the established client contact through a known channel. Do not send this draft automatically.",
+    "decision": "blocked",
+    "reason": "Authorization/security requires independent investigation. No order is released.",
+    "owner": "Operations",
+    "next_action": "Independent authorization/security verification",
+    "checks": [
+      {
+        "status": "FAIL",
+        "label": "Email authentication",
+        "detail": "Synthetic/adapter authentication did not pass; verify independently."
+      },
+      {
+        "status": "FAIL",
+        "label": "Sender is an authorised signer",
+        "detail": "Address is not in the fictional authorization register"
+      },
+      {
+        "status": "FAIL",
+        "label": "Suspicious instruction pattern",
+        "detail": "Independent verification required through established contact details"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Negation, conditional or inquiry wording requires interpretation"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Instruction is outside the supported single-order grammar; obtain explicit clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Relative size such as all/half requires an explicit confirmed quantity"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T11:58:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "FAIL",
+        "label": "Sender may act on this account",
+        "detail": "Sender is not authorized for 100234"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing instrument",
+        "detail": "Obtain one explicit instrument identifier"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing size",
+        "detail": "An explicit positive quantity or supported monetary amount is required"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "06_duplicate.eml",
+    "time": "13:02:00",
+    "received_at": "2026-11-13T13:02:00+01:00",
+    "from": "m.hartmann@hartmann-stiftung.de",
+    "subject": "Resending my earlier instruction",
+    "order_ref": "OC-8ab757523763b902",
+    "source_sha256": "8ab757523763b902c0c02299fbb9238d53c9df63567ee3e9921e4ce92cc7300c",
+    "message_id": "<06_duplicate@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100871",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": null,
+        "amount": "25000",
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Possible duplicate"
+    ],
+    "suggestion": "",
+    "reply": "Draft only: please confirm whether this is a separate instruction or a resend.",
+    "decision": "hold",
+    "reason": "Possible duplicate. Operations must establish whether this is a separate intended instruction.",
+    "owner": "Operations",
+    "next_action": "Verify intent and original-order status",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:02:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Monetary amount",
+        "detail": "EUR 25000 preserved as an amount instruction, not converted into units"
+      },
+      {
+        "status": "WARN",
+        "label": "Possible duplicate",
+        "detail": "Matches an earlier non-rejected instruction on this business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Aggregate cash",
+        "detail": "EUR 50000 candidate total against EUR 80000; unit-order valuation uses indicative sample prices"
+      }
+    ]
+  },
+  {
+    "file": "09_unknown_account.eml",
+    "time": "13:10:00",
+    "received_at": "2026-11-13T13:10:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Purchase instruction",
+    "order_ref": "OC-16851f37ff7ad97c",
+    "source_sha256": "16851f37ff7ad97c402f1ffe7436b0ba3711fc84bb8482332f67474aa3518a41",
+    "message_id": "<09_unknown_account@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "999999",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": 10,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Account exists"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:10:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "FAIL",
+        "label": "Account exists",
+        "detail": "Unknown sample account 999999"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "10 explicit units"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "10_restricted_instrument.eml",
+    "time": "13:20:00",
+    "received_at": "2026-11-13T13:20:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Purchase instruction",
+    "order_ref": "OC-b3b6d734f347a061",
+    "source_sha256": "b3b6d734f347a06122504ff810c15c9d8f3fe194189d0e8fde7ba8d3f923828c",
+    "message_id": "<10_restricted_instrument@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "DE00DAXX0046",
+        "qty": 10,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Restricted list"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:20:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "DE00DAXX0046: German DAX ETF"
+      },
+      {
+        "status": "FAIL",
+        "label": "Restricted list",
+        "detail": "Instrument is restricted in the fictional reference data"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "10 explicit units"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "11_negative_quantity.eml",
+    "time": "13:30:00",
+    "received_at": "2026-11-13T13:30:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Order file",
+    "order_ref": "OC-a980dfa8a176b920",
+    "source_sha256": "a980dfa8a176b9203c387df2ada6117e31e7a11356ccebbac0f2d25daf693ff5",
+    "message_id": "<11_negative_quantity@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": -10,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Quantity"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:30:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "FAIL",
+        "label": "Quantity",
+        "detail": "Units must be a finite positive integer in this prototype; no rounding or truncation"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "12_invalid_direction.eml",
+    "time": "13:40:00",
+    "received_at": "2026-11-13T13:40:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Order file",
+    "order_ref": "OC-5887f7b242f10903",
+    "source_sha256": "5887f7b242f1090359b6db09eb9d173cb75d03bc64b1822188d5f813d6b2b932",
+    "message_id": "<12_invalid_direction@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BYY",
+        "isin": "IE00WRLD0013",
+        "qty": 10,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Order direction"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:40:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "FAIL",
+        "label": "Order direction",
+        "detail": "Unsupported direction 'BYY'"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "10 explicit units"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "13_empty_workbook.eml",
+    "time": "13:50:00",
+    "received_at": "2026-11-13T13:50:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Order file",
+    "order_ref": "OC-b99962305ec7b2a3",
+    "source_sha256": "b99962305ec7b2a3b8fbfac53b3a9919ba79c8e29fb2134272481d92ae70b15e",
+    "message_id": "<13_empty_workbook@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [],
+    "exceptions": [
+      "Order schema"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "FAIL",
+        "label": "Order schema",
+        "detail": "Workbook contains no supported order rows"
+      },
+      {
+        "status": "FAIL",
+        "label": "Order schema",
+        "detail": "No supported order lines found"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T13:50:00+01:00 is before 16:00 in Europe/Vienna"
+      }
+    ]
+  },
+  {
+    "file": "14_mixed_instructions.eml",
+    "time": "14:00:00",
+    "received_at": "2026-11-13T14:00:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Two instructions",
+    "order_ref": "OC-020f26e72adcc434",
+    "source_sha256": "020f26e72adcc434fdd9f3e3f568d229ee3046ad9a56fda81b77d4122f0b4a8c",
+    "message_id": "<14_mixed_instructions@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": null,
+        "isin": null,
+        "qty": null,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "missing",
+          "isin": "missing",
+          "size": "missing"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Instruction interpretation",
+      "Missing direction",
+      "Missing instrument",
+      "Missing size"
+    ],
+    "suggestion": "",
+    "reply": "Draft only: please confirm the highlighted missing or ambiguous details.",
+    "decision": "review",
+    "reason": "A required interpretation or verification is unresolved. Operations owns clarification.",
+    "owner": "Operations",
+    "next_action": "Resolve highlighted issues",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Conflicting BUY/SELL or multiple orders"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Multiple trading actions require line-by-line clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Multiple unit references require clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Multiple instrument references require clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Multiple or conflicting size instructions require clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Instruction is outside the supported single-order grammar; obtain explicit clarification"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:00:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing direction",
+        "detail": "Obtain one explicit BUY or SELL direction"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing instrument",
+        "detail": "Obtain one explicit instrument identifier"
+      },
+      {
+        "status": "WARN",
+        "label": "Missing size",
+        "detail": "An explicit positive quantity or supported monetary amount is required"
+      },
+      {
+        "status": "SKIP",
+        "label": "Position or cash",
+        "detail": "Required fields or controls have not passed"
+      }
+    ]
+  },
+  {
+    "file": "15_aggregate_cash.eml",
+    "time": "14:10:00",
+    "received_at": "2026-11-13T14:10:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Order file",
+    "order_ref": "OC-5118c0fb998df4ef",
+    "source_sha256": "5118c0fb998df4eff21a9441b84ceeb89a1f7f2fce8a762b041de4ee13b8c519",
+    "message_id": "<15_aggregate_cash@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": 1000,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      },
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00ALLW0020",
+        "qty": 1500,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Line 2: Aggregate cash"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:10:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Quantity",
+        "detail": "1000 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Aggregate cash",
+        "detail": "EUR 137760.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: ISIN and instrument master",
+        "detail": "IE00ALLW0020: All-World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Quantity",
+        "detail": "1500 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "FAIL",
+        "label": "Line 2: Aggregate cash",
+        "detail": "Pending candidate buys plus this order need EUR 329910.00, sample cash is EUR 250000"
+      }
+    ]
+  },
+  {
+    "file": "16_aggregate_position.eml",
+    "time": "14:20:00",
+    "received_at": "2026-11-13T14:20:00+01:00",
+    "from": "j.brandt@brandt-vermoegen.at",
+    "subject": "Order file",
+    "order_ref": "OC-058f5224dcc532d9",
+    "source_sha256": "058f5224dcc532d9b8dee85142674989a363c49899b000961307d33eebfd8480",
+    "message_id": "<16_aggregate_position@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100455",
+        "side": "SELL",
+        "isin": "IE00SP5H0031",
+        "qty": 800,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      },
+      {
+        "account": "100455",
+        "side": "SELL",
+        "isin": "IE00SP5H0031",
+        "qty": 500,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Line 2: Aggregate position"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:20:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Account exists",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Sender may act on this account",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: ISIN and instrument master",
+        "detail": "IE00SP5H0031: US 500 ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Quantity",
+        "detail": "800 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 1: Aggregate position",
+        "detail": "800 candidate units against sample holding 1200"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Account exists",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Sender may act on this account",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: ISIN and instrument master",
+        "detail": "IE00SP5H0031: US 500 ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Quantity",
+        "detail": "500 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Line 2: Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "FAIL",
+        "label": "Line 2: Aggregate position",
+        "detail": "Pending candidate sells plus this order need 1300 units, sample holding is 1200"
+      }
+    ]
+  },
+  {
+    "file": "07_not_enough_position.eml",
+    "time": "14:30:00",
+    "received_at": "2026-11-13T14:30:00+01:00",
+    "from": "j.brandt@brandt-vermoegen.at",
+    "subject": "Sale instruction",
+    "order_ref": "OC-5c9667047a87ab79",
+    "source_sha256": "5c9667047a87ab79c135dbec4da4f66254682e03dbde86ee2cd4cdfe18f3c2b4",
+    "message_id": "<07_not_enough_position@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100455",
+        "side": "SELL",
+        "isin": "IE00SP5H0031",
+        "qty": 5000,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Aggregate position"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:30:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100455"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00SP5H0031: US 500 ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "5000 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "FAIL",
+        "label": "Aggregate position",
+        "detail": "Pending candidate sells plus this order need 5000 units, sample holding is 1200"
+      }
+    ]
+  },
+  {
+    "file": "17_negated_instruction.eml",
+    "time": "14:40:00",
+    "received_at": "2026-11-13T14:40:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Question about a hypothetical purchase",
+    "order_ref": "OC-c985f156bfa76799",
+    "source_sha256": "c985f156bfa76799a5cd6cf3efe7795759a019fb36cde7b8a10453fa9e88dd8a",
+    "message_id": "<17_negated_instruction@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100234",
+        "side": "BUY",
+        "isin": "IE00WRLD0013",
+        "qty": 10,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "Instruction interpretation"
+    ],
+    "suggestion": "",
+    "reply": "Draft only: please confirm the highlighted missing or ambiguous details.",
+    "decision": "review",
+    "reason": "A required interpretation or verification is unresolved. Operations owns clarification.",
+    "owner": "Operations",
+    "next_action": "Resolve highlighted issues",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Negation, conditional or inquiry wording requires interpretation"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Multiple trading actions require line-by-line clarification"
+      },
+      {
+        "status": "WARN",
+        "label": "Instruction interpretation",
+        "detail": "Instruction is outside the supported single-order grammar; obtain explicit clarification"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:40:00+01:00 is before 16:00 in Europe/Vienna"
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100234"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00WRLD0013: World Equity ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "10 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Aggregate cash",
+        "detail": "EUR 40344.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices"
+      }
+    ]
+  },
+  {
+    "file": "18_malformed_workbook.eml",
+    "time": "14:50:00",
+    "received_at": "2026-11-13T14:50:00+01:00",
+    "from": "anna.mueller@mueller-fo.com",
+    "subject": "Order file",
+    "order_ref": "OC-1a4da5473678ee6c",
+    "source_sha256": "1a4da5473678ee6c8655b7ea48b12f413bc258309d060895b2f29a9df93d5e47",
+    "message_id": "<18_malformed_workbook@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Excel template",
+    "type": "order",
+    "lines": [],
+    "exceptions": [
+      "Order schema"
+    ],
+    "suggestion": "",
+    "reply": "",
+    "decision": "rejected",
+    "reason": "A required validation failed. Correct and recheck the instruction before it can become a candidate.",
+    "owner": "Operations",
+    "next_action": "Obtain corrected instruction and recheck",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "FAIL",
+        "label": "Order schema",
+        "detail": "Unreadable workbook: File is not a zip file"
+      },
+      {
+        "status": "FAIL",
+        "label": "Order schema",
+        "detail": "Workbook contains no supported order rows"
+      },
+      {
+        "status": "FAIL",
+        "label": "Order schema",
+        "detail": "No supported order lines found"
+      },
+      {
+        "status": "PASS",
+        "label": "Illustrative cut-off",
+        "detail": "2026-11-13T14:50:00+01:00 is before 16:00 in Europe/Vienna"
+      }
+    ]
+  },
+  {
+    "file": "08_after_cutoff.eml",
+    "time": "16:41:00",
+    "received_at": "2026-11-13T16:41:00+01:00",
+    "from": "m.hartmann@hartmann-stiftung.de",
+    "subject": "Bond purchase",
+    "order_ref": "OC-a370716e58824324",
+    "source_sha256": "a370716e58824324f8b7a55cec8b0b41e913b29eef262babe66b9307be345dc1",
+    "message_id": "<08_after_cutoff@synthetic.order-check.example>",
+    "auth_mode": "synthetic-demo",
+    "demo_auth": true,
+    "source": "Free text",
+    "type": "order",
+    "lines": [
+      {
+        "account": "100871",
+        "side": "BUY",
+        "isin": "IE00BOND0050",
+        "qty": 100,
+        "amount": null,
+        "inferred": false,
+        "all": false,
+        "half": false,
+        "extraction": {
+          "account": "explicit",
+          "side": "explicit",
+          "isin": "explicit",
+          "size": "explicit"
+        },
+        "parse_issues": [],
+        "currency": "EUR"
+      }
+    ],
+    "exceptions": [
+      "After cut-off"
+    ],
+    "suggestion": "",
+    "reply": "Draft only: please confirm the highlighted missing or ambiguous details.",
+    "decision": "review",
+    "reason": "A required interpretation or verification is unresolved. Operations owns clarification.",
+    "owner": "Operations",
+    "next_action": "Resolve highlighted issues",
+    "checks": [
+      {
+        "status": "PASS",
+        "label": "Simulated email authentication",
+        "detail": "Demo branching only, not actual verification"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender is an authorised signer",
+        "detail": "Matches a fictional signer. Account-specific rights checked below."
+      },
+      {
+        "status": "WARN",
+        "label": "After cut-off",
+        "detail": "2026-11-13T16:41:00+01:00 meets or exceeds the illustrative 16:00 cut-off. Confirm the applicable handling date, do not promise execution."
+      },
+      {
+        "status": "PASS",
+        "label": "Account exists",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "Sender may act on this account",
+        "detail": "100871"
+      },
+      {
+        "status": "PASS",
+        "label": "ISIN and instrument master",
+        "detail": "IE00BOND0050: Euro Government Bond ETF"
+      },
+      {
+        "status": "PASS",
+        "label": "Restricted list",
+        "detail": "No fictional restriction"
+      },
+      {
+        "status": "PASS",
+        "label": "Quantity",
+        "detail": "100 explicit units"
+      },
+      {
+        "status": "PASS",
+        "label": "Duplicate check",
+        "detail": "No matching instruction in this batch and business date"
+      },
+      {
+        "status": "PASS",
+        "label": "Aggregate cash",
+        "detail": "EUR 37690.00 candidate total against EUR 80000; unit-order valuation uses indicative sample prices"
+      }
+    ]
+  }
+]

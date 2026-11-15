@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Order check cases</title><style>
+.oc{--ink:#17324d;--ink2:#526778;--ink3:#526778;--line:#cad7df;--surface:#ffffff;--page:#f3f6f8;--head:#eaf0f4;
+  --good:#087e8b;--good-ink:#075d68;--good-bg:#e3f3f5;
+  --warn:#fab219;--warn-ink:#8a5a00;--warn-bg:#fdf1d6;
+  --hold:#8a8984;--hold-ink:#4a4945;--hold-bg:#efeeea;
+  --serious:#ec835a;--serious-ink:#a3431c;--serious-bg:#fbe7de;
+  --crit:#d03b3b;--crit-ink:#a32424;--crit-bg:#f8dede;
+  color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;color-scheme:light}
+.oc *{box-sizing:border-box}
+.oc h1{font-size:24px;margin:0 0 4px}
+.oc .sub{color:var(--ink2);margin:0 0 20px;font-size:13px}
+.oc .kpis{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.oc .kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:150px}
+.oc .kpi b{display:block;font-size:28px;line-height:1.1}
+.oc .kpi span{color:var(--ink2);font-size:13px}
+.oc .stack{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin:8px 0 6px;background:var(--surface)}
+.oc .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--ink2);margin-bottom:20px}
+.oc .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.oc .filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;align-items:center}
+.oc .filters button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);border-radius:999px;
+  padding:4px 12px;cursor:pointer;color:var(--ink)}
+.oc .filters button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.oc .filters input{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:8px;padding:5px 10px;min-width:220px}
+.oc table.overview{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;margin-bottom:28px;font-size:14px}
+.oc table.overview th{background:var(--head);text-align:left;font-weight:600;padding:8px 12px}
+.oc table.overview td{border-top:1px solid var(--line);padding:8px 12px;vertical-align:top}
+.oc table.overview a{color:inherit}
+.oc .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:0 0 24px;max-width:820px}
+.oc .card-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);
+  padding-bottom:12px;margin-bottom:8px}
+.oc .card-head h2{font-size:17px;margin:0}
+.oc .meta{color:var(--ink2);font-size:13px;overflow-wrap:anywhere}
+.oc h3{font-size:16px;margin:18px 0 8px}
+.oc .row{display:flex;gap:10px;align-items:baseline;margin:6px 0}
+.oc .pill{flex:none;display:inline-block;min-width:44px;text-align:center;font-size:12px;font-weight:700;border-radius:999px;
+  padding:1px 9px;border:1.5px solid}
+.oc .PASS{color:var(--good-ink);border-color:var(--good);background:var(--good-bg)}
+.oc .FAIL{color:var(--crit-ink);border-color:var(--crit);background:var(--crit-bg)}
+.oc .WARN{color:var(--warn-ink);border-color:var(--warn);background:var(--warn-bg)}
+.oc .SKIP{color:var(--ink2);border-color:#a8a79f;background:var(--hold-bg)}
+.oc table.order{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.oc table.order th{background:var(--head);text-align:left;font-weight:600;padding:10px 12px}
+.oc table.order td{border-top:1px solid var(--line);padding:10px 12px}
+.oc .note{color:var(--ink2);font-size:13px;margin:6px 0 0}
+.oc .decision{border:1.5px solid;border-radius:8px;padding:14px 16px;margin-top:8px}
+.oc .decision h4{margin:0 0 6px;font-size:16px}
+.oc .decision p{margin:6px 0}
+.oc .chip{display:inline-block;white-space:nowrap;font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px}
+.oc .d-ready{--c:var(--good);--ci:var(--good-ink);--cb:var(--good-bg)}
+.oc .d-review{--c:var(--warn);--ci:var(--warn-ink);--cb:var(--warn-bg)}
+.oc .d-hold{--c:var(--hold);--ci:var(--hold-ink);--cb:var(--hold-bg)}
+.oc .d-rejected{--c:var(--serious);--ci:var(--serious-ink);--cb:var(--serious-bg)}
+.oc .d-blocked{--c:var(--crit);--ci:var(--crit-ink);--cb:var(--crit-bg)}
+.oc .decision{border-color:var(--c);background:var(--cb)}
+.oc .decision h4{color:var(--ci)}
+.oc .chip{background:var(--c);color:#fff}
+.oc .d-review .chip,.oc .chip.d-review{color:#0b0b0b}
+.oc .chip.d-ready,.oc .chip.d-review,.oc .chip.d-hold,.oc .chip.d-rejected,.oc .chip.d-blocked{background:var(--c)}
+.oc .muted{color:var(--ink3)}
+.oc .scope{border-left:4px solid #007b98;background:#eaf4f7;padding:12px 16px;margin:16px 0 20px}
+.oc .scope p{margin:3px 0}
+.oc .lifecycle{padding:10px 0;border-top:1px solid var(--line);margin-top:12px}
+.oc .lifecycle p{margin:5px 0}
+.oc table.order{display:block;overflow-x:auto}
+.oc table.order td{vertical-align:top}
+.oc .extract{font-size:12px;color:var(--ink2)}
+.oc .filtered-count{font-size:13px;color:var(--ink2);margin-left:auto}
+@media(max-width:620px){.oc .card{padding:16px}.oc .card-head{display:block}.oc .card-head .chip{margin-top:10px}.oc table.overview{font-size:12px}.oc .filters input{min-width:160px}}
+.oc .line-head{font-weight:600;font-size:14px;color:var(--ink2);margin:14px 0 4px;padding-top:8px;border-top:1px dashed var(--line)}
+.oc .line-head:first-child{border-top:none;padding-top:0;margin-top:4px}
+
+html{background:#f3f6f8}
+body{margin:0;padding:32px 16px;background:#f3f6f8}
+.oc{max-width:860px;margin:0 auto}
+@media print{
+  html,body{background:#fff;padding:0}
+  .oc .filters,.oc .no-print{display:none!important}
+  .oc .card{page-break-before:always;break-before:page;border:none;padding:0;max-width:none}
+  .oc .card[hidden]{display:none}
+  .oc .decision,.oc .pill,.oc .chip,.oc .track i,.oc .stack div,.oc table.order th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style></head>
+<body><main class="oc">
+<h1>Investment order review</h1>
+<p class="sub">Created 13 Nov 2026, 17:37 UTC · 18 messages · offline decision-support prototype</p>
+<div class="scope"><p><b>Demonstration scope</b></p><p>Reference data and supplied scenarios are synthetic. Authentication in demo mode is simulated, not verified against a mail server. Email headers alone do not prove authenticity.</p><p>These are recommendations for Operations. The prototype records no human approval, submits no orders and performs no execution. Sample status counts show scenario coverage, not measured accuracy or automation savings.</p></div>
+
+<div class="kpis"><div class="kpi"><b>18</b><span>Emails checked</span></div><div class="kpi"><b>2</b><span>Manual-approval candidates</span></div><div class="kpi"><b>16</b><span>Need attention</span></div><div class="kpi"><b>1</b><span>Blocked, security</span></div></div>
+<div class="stack" role="img" aria-label="Review status split"><div title="Candidate for manual approval: 2" style="flex:2;background:var(--good)"></div><div title="Human review: 4" style="flex:4;background:var(--warn)"></div><div title="Held: possible duplicate: 1" style="flex:1;background:var(--hold)"></div><div title="Rejected, ask client: 10" style="flex:10;background:var(--serious)"></div><div title="Blocked, security: 1" style="flex:1;background:var(--crit)"></div></div>
+<div class="legend"><span><i style="background:var(--good)"></i>Candidate for manual approval <b>2</b></span><span><i style="background:var(--warn)"></i>Human review <b>4</b></span><span><i style="background:var(--hold)"></i>Held: possible duplicate <b>1</b></span><span><i style="background:var(--serious)"></i>Rejected, ask client <b>10</b></span><span><i style="background:var(--crit)"></i>Blocked, security <b>1</b></span></div>
+<div class="filters no-print"><button data-f="all" aria-pressed="true">All</button><button data-f="ready" aria-pressed="false">Candidate for manual approval (2)</button><button data-f="review" aria-pressed="false">Human review (4)</button><button data-f="hold" aria-pressed="false">Held: possible duplicate (1)</button><button data-f="rejected" aria-pressed="false">Rejected, ask client (10)</button><button data-f="blocked" aria-pressed="false">Blocked, security (1)</button><input id="q" type="search" aria-label="Search sender, subject or file" placeholder="Search sender, subject, file"><span class="filtered-count" id="filtered-count" aria-live="polite"></span></div>
+<table class="overview"><thead><tr><th>Time</th><th>Email</th><th>Status</th></tr></thead><tbody><tr data-decision="ready" data-search="01_excel_order.eml anna.mueller@mueller-fo.com rebalancing order, excel attached candidate for manual approval"><td>09:12:00</td><td><a href="#case-5f34263ff97e7d40">Rebalancing order, Excel attached</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-ready">Candidate for manual approval</span></td></tr><tr data-decision="ready" data-search="02_amount_order.eml m.hartmann@hartmann-stiftung.de amount-based purchase candidate for manual approval"><td>09:47:00</td><td><a href="#case-86078c0c92766360">Amount-based purchase</a><div class="meta">m.hartmann@hartmann-stiftung.de</div></td><td><span class="chip d-ready">Candidate for manual approval</span></td></tr><tr data-decision="review" data-search="03_unclear_order.eml j.brandt@brandt-vermoegen.at selling human review"><td>10:05:00</td><td><a href="#case-5d8f276448575e24">Selling</a><div class="meta">j.brandt@brandt-vermoegen.at</div></td><td><span class="chip d-review">Human review</span></td></tr><tr data-decision="rejected" data-search="04_isin_typo.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client"><td>11:20:00</td><td><a href="#case-9cec23986477dd74">Purchase instruction</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="blocked" data-search="05_fake_sender.eml thomas.keller@mueller-fo.co urgent: act now blocked, security"><td>11:58:00</td><td><a href="#case-f97f869093a2c2c8">URGENT: act now</a><div class="meta">thomas.keller@mueller-fo.co</div></td><td><span class="chip d-blocked">Blocked, security</span></td></tr><tr data-decision="hold" data-search="06_duplicate.eml m.hartmann@hartmann-stiftung.de resending my earlier instruction held: possible duplicate"><td>13:02:00</td><td><a href="#case-7b545310a0e8c0be">Resending my earlier instruction</a><div class="meta">m.hartmann@hartmann-stiftung.de</div></td><td><span class="chip d-hold">Held: possible duplicate</span></td></tr><tr data-decision="rejected" data-search="09_unknown_account.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client"><td>13:10:00</td><td><a href="#case-b3db3f68535146ba">Purchase instruction</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="10_restricted_instrument.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client"><td>13:20:00</td><td><a href="#case-17a3af9b050a5b72">Purchase instruction</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="11_negative_quantity.eml anna.mueller@mueller-fo.com order file rejected, ask client"><td>13:30:00</td><td><a href="#case-ddf51b289667dc98">Order file</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="12_invalid_direction.eml anna.mueller@mueller-fo.com order file rejected, ask client"><td>13:40:00</td><td><a href="#case-c13509d428c15798">Order file</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="13_empty_workbook.eml anna.mueller@mueller-fo.com order file rejected, ask client"><td>13:50:00</td><td><a href="#case-953c8e3210e4acdf">Order file</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="review" data-search="14_mixed_instructions.eml anna.mueller@mueller-fo.com two instructions human review"><td>14:00:00</td><td><a href="#case-a472c998b074dc0e">Two instructions</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-review">Human review</span></td></tr><tr data-decision="rejected" data-search="15_aggregate_cash.eml anna.mueller@mueller-fo.com order file rejected, ask client"><td>14:10:00</td><td><a href="#case-a9fddf9e7887a9a5">Order file</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="16_aggregate_position.eml j.brandt@brandt-vermoegen.at order file rejected, ask client"><td>14:20:00</td><td><a href="#case-c148d1cdf1f84b07">Order file</a><div class="meta">j.brandt@brandt-vermoegen.at</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="rejected" data-search="07_not_enough_position.eml j.brandt@brandt-vermoegen.at sale instruction rejected, ask client"><td>14:30:00</td><td><a href="#case-983d6925706db8a9">Sale instruction</a><div class="meta">j.brandt@brandt-vermoegen.at</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="review" data-search="17_negated_instruction.eml anna.mueller@mueller-fo.com question about a hypothetical purchase human review"><td>14:40:00</td><td><a href="#case-b3506e792707f93e">Question about a hypothetical purchase</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-review">Human review</span></td></tr><tr data-decision="rejected" data-search="18_malformed_workbook.eml anna.mueller@mueller-fo.com order file rejected, ask client"><td>14:50:00</td><td><a href="#case-b04a9d1ee3fb756a">Order file</a><div class="meta">anna.mueller@mueller-fo.com</div></td><td><span class="chip d-rejected">Rejected, ask client</span></td></tr><tr data-decision="review" data-search="08_after_cutoff.eml m.hartmann@hartmann-stiftung.de bond purchase human review"><td>16:41:00</td><td><a href="#case-848c7d4df05d3a67">Bond purchase</a><div class="meta">m.hartmann@hartmann-stiftung.de</div></td><td><span class="chip d-review">Human review</span></td></tr></tbody></table>
+
+<section class="card" id="case-5f34263ff97e7d40" data-decision="ready" data-search="01_excel_order.eml anna.mueller@mueller-fo.com rebalancing order, excel attached candidate for manual approval">
+  <div class="card-head">
+    <div><h2>Rebalancing order, Excel attached</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 09:12:00 · 01_excel_order.eml</div></div>
+    <span class="chip d-ready">Candidate for manual approval</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>IE00WRLD0013</td><td>400 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr><tr><td>100234</td><td>SELL</td><td>IE00ALLW0020</td><td>150 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T09:12:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="line-head">Order line 1: BUY 400 units IE00WRLD0013</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 400 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 39360.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices</span></div><div class="line-head">Order line 2: SELL 150 units IE00ALLW0020</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00ALLW0020: All-World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 150 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate position.</b> 150 candidate units against sample holding 900</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-ready">
+    <h4>Candidate for manual approval</h4>
+    <p>Supported sample checks passed. This is a candidate for independent manual controls, not an approval or release.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: we have received your instruction. Acceptance and execution require separate confirmation.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Independent manual review</p>
+      <p class="note">Reference: OC-6b0d10da2759060b. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-86078c0c92766360" data-decision="ready" data-search="02_amount_order.eml m.hartmann@hartmann-stiftung.de amount-based purchase candidate for manual approval">
+  <div class="card-head">
+    <div><h2>Amount-based purchase</h2>
+      <div class="meta">m.hartmann@hartmann-stiftung.de · received 09:47:00 · 02_amount_order.eml</div></div>
+    <span class="chip d-ready">Candidate for manual approval</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100871</td><td>BUY</td><td>IE00WRLD0013</td><td>EUR 25,000.00 (amount instruction)</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T09:47:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Monetary amount.</b> EUR 25000 preserved as an amount instruction, not converted into units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 25000 candidate total against EUR 80000; unit-order valuation uses indicative sample prices</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-ready">
+    <h4>Candidate for manual approval</h4>
+    <p>Supported sample checks passed. This is a candidate for independent manual controls, not an approval or release.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: we have received your instruction. Acceptance and execution require separate confirmation.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Independent manual review</p>
+      <p class="note">Reference: OC-121eb74dad33ac54. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-5d8f276448575e24" data-decision="review" data-search="03_unclear_order.eml j.brandt@brandt-vermoegen.at selling human review">
+  <div class="card-head">
+    <div><h2>Selling</h2>
+      <div class="meta">j.brandt@brandt-vermoegen.at · received 10:05:00 · 03_unclear_order.eml</div></div>
+    <span class="chip d-review">Human review</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>?</td><td>SELL</td><td>?</td><td>&quot;half&quot; (clarify)</td><td>account: missing; side: explicit; isin: missing; size: missing</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Instruction is outside the supported single-order grammar; obtain explicit clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Relative size such as all/half requires an explicit confirmed quantity</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T10:05:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing account.</b> Obtain the account explicitly from the client</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing instrument.</b> Obtain one explicit instrument identifier</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing size.</b> An explicit positive quantity or supported monetary amount is required</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-review">
+    <h4>Human review</h4>
+    <p>A required interpretation or verification is unresolved. Operations owns clarification.</p>
+    <p><b>Suggestion for the reviewer:</b> Signer is associated with sample account 100455. Ask the client to confirm; it has not been substituted.</p><p><b>Draft reply, not sent:</b> Draft only: please confirm the highlighted missing or ambiguous details.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Resolve highlighted issues</p>
+      <p class="note">Reference: OC-71ecdf91ebdd0f82. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-9cec23986477dd74" data-decision="rejected" data-search="04_isin_typo.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client">
+  <div class="card-head">
+    <div><h2>Purchase instruction</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 11:20:00 · 04_isin_typo.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>IE00WRLD0014</td><td>200 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T11:20:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>ISIN check digit.</b> Invalid identifier &#x27;IE00WRLD0014&#x27;; never auto-correct it</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 200 explicit units</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-44c76baf81e8e34d. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-f97f869093a2c2c8" data-decision="blocked" data-search="05_fake_sender.eml thomas.keller@mueller-fo.co urgent: act now blocked, security">
+  <div class="card-head">
+    <div><h2>URGENT: act now</h2>
+      <div class="meta">thomas.keller@mueller-fo.co · received 11:58:00 · 05_fake_sender.eml</div></div>
+    <span class="chip d-blocked">Blocked, security</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill FAIL">fail</span><span><b>Email authentication.</b> Synthetic/adapter authentication did not pass; verify independently.</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Sender is an authorised signer.</b> Address is not in the fictional authorization register</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>SELL</td><td>?</td><td>&quot;all holdings&quot; (clarify)</td><td>account: explicit; side: explicit; isin: missing; size: missing</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill FAIL">fail</span><span><b>Suspicious instruction pattern.</b> Independent verification required through established contact details</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Negation, conditional or inquiry wording requires interpretation</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Instruction is outside the supported single-order grammar; obtain explicit clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Relative size such as all/half requires an explicit confirmed quantity</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T11:58:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Sender may act on this account.</b> Sender is not authorized for 100234</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing instrument.</b> Obtain one explicit instrument identifier</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing size.</b> An explicit positive quantity or supported monetary amount is required</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-blocked">
+    <h4>Blocked, security</h4>
+    <p>Authorization/security requires independent investigation. No order is released.</p>
+    <p><b>Draft reply, not sent:</b> Contact the established client contact through a known channel. Do not send this draft automatically.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Independent authorization/security verification</p>
+      <p class="note">Reference: OC-995e4129e02157ac. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-7b545310a0e8c0be" data-decision="hold" data-search="06_duplicate.eml m.hartmann@hartmann-stiftung.de resending my earlier instruction held: possible duplicate">
+  <div class="card-head">
+    <div><h2>Resending my earlier instruction</h2>
+      <div class="meta">m.hartmann@hartmann-stiftung.de · received 13:02:00 · 06_duplicate.eml</div></div>
+    <span class="chip d-hold">Held: possible duplicate</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100871</td><td>BUY</td><td>IE00WRLD0013</td><td>EUR 25,000.00 (amount instruction)</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:02:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Monetary amount.</b> EUR 25000 preserved as an amount instruction, not converted into units</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Possible duplicate.</b> Matches an earlier non-rejected instruction on this business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 50000 candidate total against EUR 80000; unit-order valuation uses indicative sample prices</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-hold">
+    <h4>Held: possible duplicate</h4>
+    <p>Possible duplicate. Operations must establish whether this is a separate intended instruction.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: please confirm whether this is a separate instruction or a resend.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Verify intent and original-order status</p>
+      <p class="note">Reference: OC-8ab757523763b902. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-b3db3f68535146ba" data-decision="rejected" data-search="09_unknown_account.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client">
+  <div class="card-head">
+    <div><h2>Purchase instruction</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 13:10:00 · 09_unknown_account.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>999999</td><td>BUY</td><td>IE00WRLD0013</td><td>10 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:10:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Account exists.</b> Unknown sample account 999999</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 10 explicit units</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-16851f37ff7ad97c. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-17a3af9b050a5b72" data-decision="rejected" data-search="10_restricted_instrument.eml anna.mueller@mueller-fo.com purchase instruction rejected, ask client">
+  <div class="card-head">
+    <div><h2>Purchase instruction</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 13:20:00 · 10_restricted_instrument.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>DE00DAXX0046</td><td>10 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:20:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> DE00DAXX0046: German DAX ETF</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Restricted list.</b> Instrument is restricted in the fictional reference data</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 10 explicit units</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-b3b6d734f347a061. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-ddf51b289667dc98" data-decision="rejected" data-search="11_negative_quantity.eml anna.mueller@mueller-fo.com order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 13:30:00 · 11_negative_quantity.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>IE00WRLD0013</td><td>-10 units (raw input; clarify)</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:30:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Quantity.</b> Units must be a finite positive integer in this prototype; no rounding or truncation</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-a980dfa8a176b920. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-c13509d428c15798" data-decision="rejected" data-search="12_invalid_direction.eml anna.mueller@mueller-fo.com order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 13:40:00 · 12_invalid_direction.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BYY</td><td>IE00WRLD0013</td><td>10 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:40:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Order direction.</b> Unsupported direction &#x27;BYY&#x27;</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 10 explicit units</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-5887f7b242f10903. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-953c8e3210e4acdf" data-decision="rejected" data-search="13_empty_workbook.eml anna.mueller@mueller-fo.com order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 13:50:00 · 13_empty_workbook.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <p class='muted'>No order lines found.</p>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill FAIL">fail</span><span><b>Order schema.</b> Workbook contains no supported order rows</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Order schema.</b> No supported order lines found</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T13:50:00+01:00 is before 16:00 in Europe/Vienna</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-b99962305ec7b2a3. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-a472c998b074dc0e" data-decision="review" data-search="14_mixed_instructions.eml anna.mueller@mueller-fo.com two instructions human review">
+  <div class="card-head">
+    <div><h2>Two instructions</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 14:00:00 · 14_mixed_instructions.eml</div></div>
+    <span class="chip d-review">Human review</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>?</td><td>?</td><td>Not supplied</td><td>account: explicit; side: missing; isin: missing; size: missing</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Conflicting BUY/SELL or multiple orders</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Multiple trading actions require line-by-line clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Multiple unit references require clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Multiple instrument references require clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Multiple or conflicting size instructions require clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Instruction is outside the supported single-order grammar; obtain explicit clarification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:00:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing direction.</b> Obtain one explicit BUY or SELL direction</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing instrument.</b> Obtain one explicit instrument identifier</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Missing size.</b> An explicit positive quantity or supported monetary amount is required</span></div><div class="row"><span class="pill SKIP">skip</span><span><b>Position or cash.</b> Required fields or controls have not passed</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-review">
+    <h4>Human review</h4>
+    <p>A required interpretation or verification is unresolved. Operations owns clarification.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: please confirm the highlighted missing or ambiguous details.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Resolve highlighted issues</p>
+      <p class="note">Reference: OC-020f26e72adcc434. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-a9fddf9e7887a9a5" data-decision="rejected" data-search="15_aggregate_cash.eml anna.mueller@mueller-fo.com order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 14:10:00 · 15_aggregate_cash.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>IE00WRLD0013</td><td>1,000 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr><tr><td>100234</td><td>BUY</td><td>IE00ALLW0020</td><td>1,500 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:10:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="line-head">Order line 1: BUY 1,000 units IE00WRLD0013</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 1000 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 137760.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices</span></div><div class="line-head">Order line 2: BUY 1,500 units IE00ALLW0020</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00ALLW0020: All-World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 1500 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Aggregate cash.</b> Pending candidate buys plus this order need EUR 329910.00, sample cash is EUR 250000</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-5118c0fb998df4ef. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-c148d1cdf1f84b07" data-decision="rejected" data-search="16_aggregate_position.eml j.brandt@brandt-vermoegen.at order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">j.brandt@brandt-vermoegen.at · received 14:20:00 · 16_aggregate_position.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100455</td><td>SELL</td><td>IE00SP5H0031</td><td>800 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr><tr><td>100455</td><td>SELL</td><td>IE00SP5H0031</td><td>500 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:20:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="line-head">Order line 1: SELL 800 units IE00SP5H0031</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00SP5H0031: US 500 ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 800 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate position.</b> 800 candidate units against sample holding 1200</span></div><div class="line-head">Order line 2: SELL 500 units IE00SP5H0031</div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00SP5H0031: US 500 ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 500 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Aggregate position.</b> Pending candidate sells plus this order need 1300 units, sample holding is 1200</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-058f5224dcc532d9. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-983d6925706db8a9" data-decision="rejected" data-search="07_not_enough_position.eml j.brandt@brandt-vermoegen.at sale instruction rejected, ask client">
+  <div class="card-head">
+    <div><h2>Sale instruction</h2>
+      <div class="meta">j.brandt@brandt-vermoegen.at · received 14:30:00 · 07_not_enough_position.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100455</td><td>SELL</td><td>IE00SP5H0031</td><td>5,000 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:30:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100455</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00SP5H0031: US 500 ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 5000 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Aggregate position.</b> Pending candidate sells plus this order need 5000 units, sample holding is 1200</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-5c9667047a87ab79. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-b3506e792707f93e" data-decision="review" data-search="17_negated_instruction.eml anna.mueller@mueller-fo.com question about a hypothetical purchase human review">
+  <div class="card-head">
+    <div><h2>Question about a hypothetical purchase</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 14:40:00 · 17_negated_instruction.eml</div></div>
+    <span class="chip d-review">Human review</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100234</td><td>BUY</td><td>IE00WRLD0013</td><td>10 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Negation, conditional or inquiry wording requires interpretation</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Multiple trading actions require line-by-line clarification</span></div><div class="row"><span class="pill WARN">warn</span><span><b>Instruction interpretation.</b> Instruction is outside the supported single-order grammar; obtain explicit clarification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:40:00+01:00 is before 16:00 in Europe/Vienna</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100234</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00WRLD0013: World Equity ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 10 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 40344.00 candidate total against EUR 250000; unit-order valuation uses indicative sample prices</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-review">
+    <h4>Human review</h4>
+    <p>A required interpretation or verification is unresolved. Operations owns clarification.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: please confirm the highlighted missing or ambiguous details.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Resolve highlighted issues</p>
+      <p class="note">Reference: OC-c985f156bfa76799. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-b04a9d1ee3fb756a" data-decision="rejected" data-search="18_malformed_workbook.eml anna.mueller@mueller-fo.com order file rejected, ask client">
+  <div class="card-head">
+    <div><h2>Order file</h2>
+      <div class="meta">anna.mueller@mueller-fo.com · received 14:50:00 · 18_malformed_workbook.eml</div></div>
+    <span class="chip d-rejected">Rejected, ask client</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Excel template, type “order”</h3>
+  <p class='muted'>No order lines found.</p>
+  <p class="note">The spreadsheet is parsed using fixed rules. Parsed values still require schema, authorization and business-rule checks.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill FAIL">fail</span><span><b>Order schema.</b> Unreadable workbook: File is not a zip file</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Order schema.</b> Workbook contains no supported order rows</span></div><div class="row"><span class="pill FAIL">fail</span><span><b>Order schema.</b> No supported order lines found</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Illustrative cut-off.</b> 2026-11-13T14:50:00+01:00 is before 16:00 in Europe/Vienna</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-rejected">
+    <h4>Rejected, ask client</h4>
+    <p>A required validation failed. Correct and recheck the instruction before it can become a candidate.</p>
+    
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Obtain corrected instruction and recheck</p>
+      <p class="note">Reference: OC-1a4da5473678ee6c. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+<section class="card" id="case-848c7d4df05d3a67" data-decision="review" data-search="08_after_cutoff.eml m.hartmann@hartmann-stiftung.de bond purchase human review">
+  <div class="card-head">
+    <div><h2>Bond purchase</h2>
+      <div class="meta">m.hartmann@hartmann-stiftung.de · received 16:41:00 · 08_after_cutoff.eml</div></div>
+    <span class="chip d-review">Human review</span>
+  </div>
+  <h3>Step 1. Sender evidence and authority</h3>
+  <div class="row"><span class="pill PASS">pass</span><span><b>Simulated email authentication.</b> Demo branching only, not actual verification</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender is an authorised signer.</b> Matches a fictional signer. Account-specific rights checked below.</span></div>
+  <h3>Step 2. Read the email: Free text, type “order”</h3>
+  <table class='order'><thead><tr><th>Account</th><th>Side</th><th>ISIN</th><th>Size</th><th>Extraction status</th></tr></thead><tbody><tr><td>100871</td><td>BUY</td><td>IE00BOND0050</td><td>100 units</td><td>account: explicit; side: explicit; isin: explicit; size: explicit</td></tr></tbody></table>
+  <p class="note">Text extraction supports a deliberately narrow grammar. Ambiguous or unsupported wording requires review. No extraction probabilities or AI model are used.</p>
+  <h3>Step 3. Rule checks</h3>
+  <div class="row"><span class="pill WARN">warn</span><span><b>After cut-off.</b> 2026-11-13T16:41:00+01:00 meets or exceeds the illustrative 16:00 cut-off. Confirm the applicable handling date, do not promise execution.</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Account exists.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Sender may act on this account.</b> 100871</span></div><div class="row"><span class="pill PASS">pass</span><span><b>ISIN and instrument master.</b> IE00BOND0050: Euro Government Bond ETF</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Restricted list.</b> No fictional restriction</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Quantity.</b> 100 explicit units</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Duplicate check.</b> No matching instruction in this batch and business date</span></div><div class="row"><span class="pill PASS">pass</span><span><b>Aggregate cash.</b> EUR 37690.00 candidate total against EUR 80000; unit-order valuation uses indicative sample prices</span></div>
+  <h3>Step 4. Recommendation</h3>
+  <div class="decision d-review">
+    <h4>Human review</h4>
+    <p>A required interpretation or verification is unresolved. Operations owns clarification.</p>
+    <p><b>Draft reply, not sent:</b> Draft only: please confirm the highlighted missing or ambiguous details.</p>
+    <div class="lifecycle">
+      <p><b>Proposed owner:</b> Operations</p>
+      <p><b>Next action:</b> Resolve highlighted issues</p>
+      <p class="note">Reference: OC-a370716e58824324. Approval and external execution are outside this prototype.</p>
+    </div>
+  </div>
+</section>
+</main><script>
+(function(){
+  var buttons=document.querySelectorAll('.filters button'), q=document.getElementById('q'), current='all';
+  function apply(){
+    var text=(q.value||'').toLowerCase();
+    document.querySelectorAll('[data-decision]').forEach(function(el){
+      var okS=current==='all'||el.dataset.decision===current;
+      var okT=!text||el.dataset.search.indexOf(text)>-1;
+      el.hidden=!(okS&&okT);
+    });
+    var visible=document.querySelectorAll('section.card:not([hidden])').length;
+    document.getElementById('filtered-count').textContent=visible+' of '+document.querySelectorAll('section.card').length+' shown';
+  }
+  buttons.forEach(function(b){b.addEventListener('click',function(){
+    current=b.dataset.f; buttons.forEach(function(x){x.setAttribute('aria-pressed',x===b)}); apply();});});
+  q.addEventListener('input',apply);
+  apply();
+})();
+</script></body></html>

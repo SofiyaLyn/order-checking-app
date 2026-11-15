@@ -1,0 +1,13 @@
+From: anna.mueller@mueller-fo.com
+To: orders@firm.example
+Subject: Two instructions
+Date: Fri, 13 Nov 2026 14:00:00 +0100
+Message-ID: <14_mixed_instructions@synthetic.order-check.example>
+X-Order-Check-Demo: synthetic-v2
+Authentication-Results: mx.firm.example; spf=pass; dkim=pass
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+Please buy 10 units of IE00WRLD0013 and sell 20 units of IE00ALLW0020 for acc=
+ount 100234.

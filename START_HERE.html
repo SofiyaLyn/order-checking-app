@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="app-session" content="__SESSION_TOKEN__">
+  <title>Order Check — local review workspace</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="demo_cases.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-symbol" aria-hidden="true">OC</span><span>Order Check<small>Interview prototype</small></span></div>
+    <div class="connection"><span id="connection-dot" class="connection-dot"></span><span id="connection-text">Opening workspace</span></div>
+  </header>
+  <main>
+    <div class="page-heading"><div><p class="eyebrow">INVESTMENT OPERATIONS</p><h1>Every instruction. Every check.</h1><p class="intro">Review proposed orders, understand exceptions and see what Operations needs to do next.</p></div><button id="export-json" class="button secondary" type="button">Download results</button></div>
+    <div id="connection-banner" class="notice" hidden></div>
+    <div class="scope-line"><span class="scope-dot" aria-hidden="true"></span>Synthetic examples and a local checker. Human approval remains pending. No orders are submitted or executed.</div>
+    <nav class="tabs" role="tablist" aria-label="Workspace">
+      <button id="tab-demo" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-demo" data-view="demo">Demo cases<span id="tab-count">18</span></button>
+      <button id="tab-trial" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-trial" data-view="trial">Try an instruction</button>
+      <button id="tab-files" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-files" data-view="files">Local email files</button>
+    </nav>
+
+    <section id="panel-demo" role="tabpanel" aria-labelledby="tab-demo">
+      <div class="section-heading"><div><h2>Scenario review</h2><p>Eighteen invented examples show the normal path and the exceptions.</p></div><button id="run-demo" class="button primary live-control" type="button" disabled>Run all 18 examples</button></div>
+      <div id="scenario-summary" class="summary-strip" aria-label="Scenario outcomes"></div>
+      <div class="filterbar"><div id="status-filters" class="status-filters" role="group" aria-label="Filter by disposition"></div><label class="search-field"><span class="sr-only">Search scenarios</span><input id="case-search" type="search" placeholder="Search subject, sender or file"></label></div>
+      <div class="review-workspace"><div class="case-list-column"><div class="list-heading"><span>Instruction</span><span id="visible-count"></span></div><div id="case-list" class="case-list"></div></div><div id="case-detail" class="case-detail" aria-live="polite"></div></div>
+    </section>
+
+    <section id="panel-trial" role="tabpanel" aria-labelledby="tab-trial" hidden>
+      <div class="section-heading"><div><h2>Try a synthetic instruction</h2><p>Change the wording or attach a workbook, then run the same Python checker.</p></div></div>
+      <div class="trial-layout"><form id="trial-form" class="input-form">
+        <div class="example-buttons" aria-label="Fill an example"><span>Start with</span><button type="button" data-example="valid">Complete order</button><button type="button" data-example="ambiguous">Ambiguous order</button><button type="button" data-example="mixed">Mixed instructions</button></div>
+        <label for="sender">Sample sender</label><select id="sender" name="sender"></select>
+        <label for="subject">Email subject</label><input id="subject" name="subject" value="Order instruction" maxlength="300">
+        <label for="instruction-body">Instruction</label><textarea id="instruction-body" name="body" rows="7" maxlength="50000">Please buy 100 units of IE00WRLD0013 for account 100234.</textarea>
+        <div class="form-grid"><div><label for="received-at">Simulated receipt, Vienna time</label><input id="received-at" name="received_at" type="datetime-local" value="2026-11-13T10:00" required></div><div><label for="trial-workbook">Optional Excel instruction</label><input id="trial-workbook" type="file" accept=".xlsx"><small class="field-help">One .xlsx file, up to 5 MB.</small></div></div>
+        <label class="checkbox-label"><input id="auth-failure" type="checkbox">Simulate a failed sender-authentication check</label>
+        <div class="form-actions"><button id="check-instruction" class="button primary live-control" type="submit" disabled>Check instruction</button><a id="template-link" class="text-link" href="/api/template" aria-disabled="true">Download Excel template</a></div>
+        <p class="form-note">Sender authentication and receipt times in this form are simulated. Passing the sample checks creates a candidate for independent manual approval.</p>
+      </form><div id="trial-result" class="result-area"><div class="empty-state"><span class="empty-mark" aria-hidden="true">?</span><h3>The recommendation appears here</h3><p>You will see the extracted terms, each check and the proposed next action.</p></div></div></div>
+    </section>
+
+    <section id="panel-files" role="tabpanel" aria-labelledby="tab-files" hidden>
+      <div class="section-heading"><div><h2>Review local email files</h2><p>Saved .eml files stay on this computer. Their authentication headers remain unverified.</p></div></div>
+      <div class="upload-layout"><div class="file-input-area"><label class="drop-zone" for="email-files"><span class="upload-symbol" aria-hidden="true">+</span><strong>Choose email files</strong><span>Select .eml files from your computer</span><small>Up to 20 files, 10 MB each, 14 MB in total</small><input id="email-files" type="file" accept=".eml" multiple></label><ul id="selected-files" class="selected-files"></ul><div class="form-actions"><button id="check-files" class="button primary live-control" type="button" disabled>Check selected emails</button><button id="clear-files" class="button secondary" type="button">Clear selection</button></div></div><div class="upload-explanation"><h3>What this review establishes</h3><p>The checker can inspect the wording and attachments. A saved file alone cannot prove the sender or its actual receipt time.</p><p>Instructions therefore require independent verification before they can progress. To explore simulated successful checks, use the synthetic instruction form.</p></div></div>
+      <div id="file-results"></div>
+    </section>
+    <div id="app-message" class="app-message" role="status" aria-live="polite"></div>
+    <footer><span>Order Check · based on Sofiya's prototype</span><span>Sample controls support review. They do not represent Erste's internal rules.</span></footer>
+  </main>
+</body>
+</html>

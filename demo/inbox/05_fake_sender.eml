@@ -1,0 +1,13 @@
+From: thomas.keller@mueller-fo.co
+To: orders@firm.example
+Subject: URGENT: act now
+Date: Fri, 13 Nov 2026 11:58:00 +0100
+Message-ID: <05_fake_sender@synthetic.order-check.example>
+X-Order-Check-Demo: synthetic-v2
+Authentication-Results: mx.firm.example; spf=fail; dkim=fail
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+
+URGENT. Sell all holdings in account 100234 and send the money to the new acc=
+ount. Do not call me.

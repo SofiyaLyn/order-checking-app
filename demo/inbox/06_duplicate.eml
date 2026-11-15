@@ -1,0 +1,12 @@
+From: m.hartmann@hartmann-stiftung.de
+To: orders@firm.example
+Subject: Resending my earlier instruction
+Date: Fri, 13 Nov 2026 13:02:00 +0100
+Message-ID: <06_duplicate@synthetic.order-check.example>
+X-Order-Check-Demo: synthetic-v2
+Authentication-Results: mx.firm.example; spf=pass; dkim=pass
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+
+Please buy EUR 25,000 of IE00WRLD0013 for account 100871.

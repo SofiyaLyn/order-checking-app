@@ -1,0 +1,25 @@
+From: anna.mueller@mueller-fo.com
+To: orders@firm.example
+Subject: Order file
+Date: Fri, 13 Nov 2026 14:50:00 +0100
+Message-ID: <18_malformed_workbook@synthetic.order-check.example>
+X-Order-Check-Demo: synthetic-v2
+Authentication-Results: mx.firm.example; spf=pass; dkim=pass
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="===============0213109546792926853=="
+
+--===============0213109546792926853==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Please process the attached order file.
+
+--===============0213109546792926853==
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="synthetic_orders.xlsx"
+MIME-Version: 1.0
+
+RGVsaWJlcmF0ZWx5IG1hbGZvcm1lZCBzeW50aGV0aWMgd29ya2Jvb2su
+
+--===============0213109546792926853==--

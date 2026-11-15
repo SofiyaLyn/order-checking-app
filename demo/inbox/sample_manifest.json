@@ -1,0 +1,136 @@
+{
+  "mode": "synthetic-demo",
+  "date": "2026-11-13",
+  "timezone": "Europe/Vienna",
+  "note": "Expected dispositions cover scenario routing, not verified authenticity, execution or production performance.",
+  "scenarios": [
+    {
+      "file": "01_excel_order.eml",
+      "purpose": "Complete structured instruction with distinct valid lines.",
+      "expected_decisions": [
+        "ready"
+      ]
+    },
+    {
+      "file": "02_amount_order.eml",
+      "purpose": "Preserve the EUR amount without converting it to units.",
+      "expected_decisions": [
+        "ready"
+      ]
+    },
+    {
+      "file": "03_unclear_order.eml",
+      "purpose": "Missing economic terms require client clarification.",
+      "expected_decisions": [
+        "review"
+      ]
+    },
+    {
+      "file": "04_isin_typo.eml",
+      "purpose": "A failing ISIN checksum blocks readiness. Never apply a suggested correction.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "05_fake_sender.eml",
+      "purpose": "Simulated authentication failure and unknown sender.",
+      "expected_decisions": [
+        "blocked"
+      ]
+    },
+    {
+      "file": "06_duplicate.eml",
+      "purpose": "An identical earlier instruction needs verification before treating it as new.",
+      "expected_decisions": [
+        "hold"
+      ]
+    },
+    {
+      "file": "07_not_enough_position.eml",
+      "purpose": "The sale exceeds the sample available position.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "08_after_cutoff.eml",
+      "purpose": "Late arrival needs timing review, without promising next-day execution.",
+      "expected_decisions": [
+        "review"
+      ]
+    },
+    {
+      "file": "09_unknown_account.eml",
+      "purpose": "Unknown accounts cannot pass by skipping account-specific checks.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "10_restricted_instrument.eml",
+      "purpose": "The configured fictional restricted instrument prevents readiness.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "11_negative_quantity.eml",
+      "purpose": "Negative units are invalid even in a structured template.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "12_invalid_direction.eml",
+      "purpose": "Unsupported directions must not fall through into the buy branch.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "13_empty_workbook.eml",
+      "purpose": "Headers without order rows cannot produce a ready order.",
+      "expected_decisions": [
+        "rejected",
+        "review"
+      ]
+    },
+    {
+      "file": "14_mixed_instructions.eml",
+      "purpose": "Mixed free-text instructions must not combine unrelated fields.",
+      "expected_decisions": [
+        "review"
+      ]
+    },
+    {
+      "file": "15_aggregate_cash.eml",
+      "purpose": "The combined indicative purchase value exceeds available cash.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "16_aggregate_position.eml",
+      "purpose": "Individually affordable sale lines jointly exceed the available position.",
+      "expected_decisions": [
+        "rejected"
+      ]
+    },
+    {
+      "file": "17_negated_instruction.eml",
+      "purpose": "Negation and hypothetical wording cannot become a live instruction.",
+      "expected_decisions": [
+        "review"
+      ]
+    },
+    {
+      "file": "18_malformed_workbook.eml",
+      "purpose": "An unreadable workbook becomes an exception without stopping the batch.",
+      "expected_decisions": [
+        "rejected",
+        "review"
+      ]
+    }
+  ]
+}

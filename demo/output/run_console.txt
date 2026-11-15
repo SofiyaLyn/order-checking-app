@@ -1,0 +1,22 @@
+SYNTHETIC DEMO: authentication and receipt times are simulated. No order can be approved, sent or executed.
+01_excel_order.eml: Candidate for manual approval
+02_amount_order.eml: Candidate for manual approval
+03_unclear_order.eml: Human review
+04_isin_typo.eml: Rejected: validation failure
+05_fake_sender.eml: Blocked: authorization/security
+06_duplicate.eml: Held: possible duplicate
+09_unknown_account.eml: Rejected: validation failure
+10_restricted_instrument.eml: Rejected: validation failure
+11_negative_quantity.eml: Rejected: validation failure
+12_invalid_direction.eml: Rejected: validation failure
+13_empty_workbook.eml: Rejected: validation failure
+14_mixed_instructions.eml: Human review
+15_aggregate_cash.eml: Rejected: validation failure
+16_aggregate_position.eml: Rejected: validation failure
+07_not_enough_position.eml: Rejected: validation failure
+17_negated_instruction.eml: Human review
+18_malformed_workbook.eml: Rejected: validation failure
+08_after_cutoff.eml: Human review
+
+18 emails assessed. Reports: ./demo/output
+Local history is an audit trail, not a tamper-proof ledger or persistent OMS duplicate control.
