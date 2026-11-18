@@ -267,7 +267,8 @@
       state.files.forEach((f) => validateFile(f, ".eml", 10 * 1024 * 1024));
       if (state.files.reduce((n, f) => n + f.size, 0) > 14 * 1024 * 1024) throw new Error("The selected files exceed 14 MB in total.");
       $("picked").innerHTML = state.files.map((f) => `<li>${esc(f.name)} · ${Math.max(1, Math.round(f.size / 1024))} KB</li>`).join("");
-      message(state.files.length ? state.files.length + " email files selected." : "");
+      if (state.files.length && !state.live) message(state.files.length + " email file(s) selected, but checking needs the local checker. Start the app with START_MAC.command or START_WINDOWS.bat (or python launch.py) and use the page it opens.", true);
+      else message(state.files.length ? state.files.length + " email files selected." : "");
     } catch (err) { state.files = []; $("eml").value = ""; $("picked").innerHTML = ""; message(err.message, true); }
     updateControls();
   }
